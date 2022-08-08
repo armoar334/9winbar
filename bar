@@ -1,0 +1,26 @@
+#!/bin/rc
+
+fn bar_run{
+	dims=`{read -c60 /dev/window}
+	echo $dims
+	bottomx=`{echo $dims(4) - 200 | pc -n}
+	bottomy=`{echo $dims(5) - 30 | pc -n}
+	echo resize -r $bottomx $bottomy $dims(4) $dims(5) > /dev/wctl
+	
+	while(){
+		BATT=`{cat /mnt/acpi/battery}
+		if (~ $BATT(12) discharging )
+			BATTCH='↓'
+		if not {
+			BATTCH='↑'
+		}
+		>/dev/text
+		echo
+		echo -n `{date | awk -F ' ' '{print $4}'} '|' $BATT(1)% $BATTCH '|'
+		sleep 15
+	}
+}
+
+echo resize -r 0 0 9999 9999 > /dev/wctl
+echo scroll > /dev/wctl
+bar_run
