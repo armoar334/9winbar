@@ -1,11 +1,5 @@
 #!/bin/rc
 
-fn fuzzy_menu{
-	proglaunch=`{walk /bin | sed 's/\/bin\///g' | fm -p}
-	window $proglaunch
-}
-
-
 
 fn send_prog{
 	while(){
